@@ -4,13 +4,13 @@ var router = express.Router();
 const fetch = require('node-fetch');
 const City = require('../models/cities');
 
-const OWM_API_KEY = process.env.OWM_API_KEY;
+const ownApiKey = process.env.OWM_API_KEY;
 
 router.post('/', (req, res) => {
 
 	City.findOne({ cityName: { $regex: new RegExp(req.body.cityName, 'i') } }).then(dbData => {
 		if (dbData === null) {
-			fetch(`https://api.openweathermap.org/data/2.5/weather?q=${req.body.cityName}&appid=${OWM_API_KEY}&units=metric`)
+			fetch(`https://api.openweathermap.org/data/2.5/weather?q=${req.body.cityName}&appid=${ownApiKey}&units=metric`)
 				.then(response => response.json())
 				.then(apiData => {
 					const newCity = new City({
